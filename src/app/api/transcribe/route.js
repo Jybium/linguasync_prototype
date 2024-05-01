@@ -3,26 +3,13 @@ import { SpeechClient } from "@google-cloud/speech";
 import path from "path";
 import wav from "node-wav";
 
-const pathToCredentials = path.resolve(
-  process.cwd(),
-  "C:/Users/HP/Desktop/James's document/linear-cinema-421509-f854cb7e0b77.json"
-);
+
+const pathToCredentials = JSON.parse(process.env.credentials)
 
 const speechClient = new SpeechClient({
-  keyFilename: pathToCredentials,
+  credentials: pathToCredentials,
 });
 
-function getSampleRateHertz(audioBuffer) {
-  try {
-    const decodedAudio = wav.decode(Buffer.from(audioBuffer));
-    const sampleRateHertz = decodedAudio.sampleRate;
-
-    return sampleRateHertz;
-  } catch (error) {
-    console.error("Error getting sample rate:", error);
-    throw error;
-  }
-}
 
 export async function POST(req, res) {
   if (req.method !== "POST") {
@@ -41,8 +28,6 @@ export async function POST(req, res) {
     }
 
     const audioBuffer = await audioFile.arrayBuffer();
-
-    const sampleRateHertz = getSampleRateHertz(audioBuffer);
     const audioContent = Buffer.from(audioBuffer).toString("base64");
 
     const audioConfig = {
@@ -54,7 +39,7 @@ export async function POST(req, res) {
       enable_automatic_punctuation: true,
       model: "default",
       enable_word_time_offsets: true,
-      sampleRateHertz,
+      sampleRateHertz: "48000",
       languageCode: "en-US",
     };
 

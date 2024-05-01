@@ -19,6 +19,7 @@ export default function Home() {
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
         null
     );
+    const [input, setInput] = useState("")
     const [data, setData] = useState<[] | undefined>([])
     const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
     const [blobs, setBlob] = useState<Blob[] | []>([]);
@@ -62,7 +63,7 @@ export default function Home() {
 
     useEffect(() => {
         try {
-            const data = sessionStorage.getItem("data");
+            const data = localStorage.getItem("data");
             if (data) {
                 const parsedData = JSON.parse(data);
                 setData(parsedData);
@@ -73,11 +74,11 @@ export default function Home() {
         } catch (error) {
             console.error('Error parsing data from store:', error);
         }
-    }, [audioChunks]);
+    }, [input]);
 
     function addRequestResponsePair(request: any, response: any) {
         const key = "data";
-        const existingData = sessionStorage.getItem(key);
+        const existingData = localStorage.getItem(key);
 
         let data = existingData ? JSON.parse(existingData) : [];
 
@@ -89,7 +90,7 @@ export default function Home() {
         data.push(newObject);
 
         const jsonData = JSON.stringify(data);
-        sessionStorage.setItem(key, jsonData);
+        localStorage.setItem(key, jsonData);
     }
 
 
@@ -189,47 +190,28 @@ export default function Home() {
                 <div className="flex flex-col justify-between mt-10 h-[50vh] overflow-y-auto">
 
 
-                    {!data && <h1>Click the mic to start dictating</h1>}
+                    {!data && <h1>Start typing to translate</h1>}
 
                     <div className="flex flex-col gap-2 flex-1 overflow-y-auto">
                         {
                             data?.map((item: { request: string; response: string }) => (
                                 <div key={item.request || item.response}>
                                     {item?.request && (
-                                        <audio
-                                            src={item.request}
-                                            controls
-                                            onEnded={() => setIsPlaying(false)}
-                                            onTimeUpdate={() => setPlaybackTime(audioRef.current?.currentTime || 0)}
-                                        />
+                                        <p className="mt-2 flex justify-end">{item.request}</p>
                                     )}
-                                    {item?.response && <p className="mt-2 flex justify-end">{item.response}</p>}
+                                    {item?.response && <p className="mt-2 flex justify-end text-red-600">{item.response}</p>}
                                 </div>
                             ))
                         }
                     </div>
                     <div className="flex justify-between items-center">
 
-                        <button onClick={startRecording} disabled={recording} className="h-10 w-10 bg-green rounded-full flex items-center justify-center text-center">
+                        {/* <button onClick={startRecording} disabled={recording} className="h-10 w-10 bg-green rounded-full flex items-center justify-center text-center">
                             <CiMicrophoneOn size={30} color="white" />
-                        </button>
+                        </button> */}
+                        <input value={input} onChange={(e)=>setInput(e.target.value)} type="text"/>
 
 
-                        {/* <button onClick={stopRecording} disabled={!recording}>
-                            Stop
-                        </button>
-                        <button onClick={sendAudio} disabled={audioChunks.length === 0} className="h-10 w-10 bg-green rounded-full flex items-center justify-center text-center">
-                            <IoIosSend size={30} color="white" />
-                        </button>
-                        <button onClick={handleAudioPlayback} disabled={recording}>
-                            Playback
-                        </button>
-                        <audio
-                            ref={audioRef}
-                            controls
-                            onEnded={() => setIsPlaying(false)}
-                            onTimeUpdate={() => setPlaybackTime(audioRef.current?.currentTime || 0)}
-                        /> */}
                         <div className="flex gap-3 items-end ">
                             <div>
                                 {recording && <p>Recording Time: {recordingTime} seconds</p>}
@@ -255,7 +237,7 @@ export default function Home() {
 
 
                     <h1>Review Conversations</h1>
-                    <p>Practice mispronouced words and Phrases</p>
+                    <p>Translate your words and Phrases</p>
                 </div>
 
                 <div className="bg-white rounded-sm p-3 w-[95%] mx-auto overflow-y-auto">
@@ -265,14 +247,9 @@ export default function Home() {
                             data?.map((item: { request: string; response: string }) => (
                                 <div key={item.request || item.response}>
                                     {item?.request && (
-                                        <audio
-                                            src={item.request}
-                                            controls
-                                            onEnded={() => setIsPlaying(false)}
-                                            onTimeUpdate={() => setPlaybackTime(audioRef.current?.currentTime || 0)}
-                                        />
+                                        <p className="mt-2 flex justify-end">{item.request}</p>
                                     )}
-                                    {item?.response && <p className="mt-2 flex justify-end">{item.response}</p>}
+                                    {item?.response && <p className="mt-2 flex justify-end text-red-600">{item.response}</p>}
                                 </div>
                             ))
                         }

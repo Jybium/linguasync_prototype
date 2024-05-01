@@ -1,12 +1,15 @@
 import {NextResponse} from "next/server"
+import path from "path";
+
 
 
 const { Translate } = require("@google-cloud/translate").v2;
+const pathToCredentials = JSON.parse(process.env.credentials);
+
 
 
 const translate = new Translate({
-  keyFilename:
-    "C:/Users/HP/Desktop/James's document/linear-cinema-421509-f854cb7e0b77.json", 
+  credentials: pathToCredentials,
 });
 
 export async function POST(req, res) {
