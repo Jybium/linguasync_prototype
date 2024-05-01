@@ -16,14 +16,14 @@ const textToSpeechHelper = async (text, res) => {
     audioConfig: { audioEncoding: "MP3" },
   };
 
-  // Make the Text-to-Speech API request
+ 
   const [response] = await client.synthesizeSpeech(request);
 
-  // Create a readable stream from the audio content
+
   const audioStream = new PassThrough();
   audioStream.end(Buffer.from(response.audioContent, "binary"));
 
-  // Set the response headers
+
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("Content-Type", "audio/mpeg");
     requestHeaders.set(
@@ -31,7 +31,7 @@ const textToSpeechHelper = async (text, res) => {
       "attachment; filename=speech.mp3"
     );
 
-  // Stream the audio content to the response
+
   audioStream.pipe(res);
 };
 

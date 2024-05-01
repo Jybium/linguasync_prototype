@@ -10,17 +10,6 @@ const speechClient = new SpeechClient({
   credentials: pathToCredentials,
 });
 
-// function getSampleRateHertz(audioBuffer) {
-//   try {
-//     const decodedAudio = wav.decode(Buffer.from(audioBuffer));
-//     const sampleRateHertz = decodedAudio.sampleRate;
-
-//     return sampleRateHertz;
-//   } catch (error) {
-//     console.error("Error getting sample rate:", error);
-//     throw error;
-//   }
-// }
 
 export async function POST(req, res) {
   if (req.method !== "POST") {
