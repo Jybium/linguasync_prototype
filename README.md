@@ -25,15 +25,14 @@ Before you begin, ensure you have the following installed:
 
 - Node.js (v14 or later)
 - npm (v6 or later)
-- Python (v3.8 or later)
-- Docker (for containerization)
+
 
 ### Installation
 
 1. Clone the repository:
 ```
-git clone https://github.com/your-username/LinguaLink.git
-cd LinguaLink
+git clone https://github.com/linguasyncinc/Linguasync_prototype.git
+cd Linguasync
 ```
 2. Install dependencies:
 ```
@@ -59,11 +58,10 @@ After installation, you can start using LinguaLink by navigating to `localhost:3
 
 ## Technology Stack
 
-- **Frontend**: React, Redux
-- **Backend**: Node.js, Express
+- **Frontend**: Nextjs, Redux
+- **Backend**: Nextjs serverless function
 - **AI**: [Google's Vertex AI](https://cloud.google.com/vertex-ai/docs), [Google Cloud Speech-to-Text API](https://cloud.google.com/speech-to-text/docs), [Google Cloud Text-to-Speech API](https://cloud.google.com/text-to-speech/docs), [Google Cloud Translation API](https://cloud.google.com/translate/docs/reference/api-overview)
-- **Database**: MongoDB
-- **DevOps**: Docker, GitHub Actions
+
 
 ## Contact
 
