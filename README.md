@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to LinguaSync
+
+Welcome to the GitHub repository for LinguaLink, an AI-driven language literacy application designed to transform the way users engage with new languages through conversation. This README provides all the necessary information to get started with the project, including setting up your environment, and running the application.
+
+### Table of Contents
+
+1. [Project Overview](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#project-overview)
+2. [Getting Started](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#getting-started)
+   - [Prerequisites](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#prerequisites)
+   - [Installation](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#installation)
+3. [Usage](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#usage)
+4. [Features](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#features)
+5. [Technology Stack](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#technology-stack)
+6. [Contact](https://github.com/linguasync/linguasync_prototype/edit/main/README.md#contact)
+
+## Project Overview
+
+LinguaLink leverages [Google's Vertex AI](https://cloud.google.com/vertex-ai/docs), along with advanced speech-to-text, text-to-speech, and translation technologies, to create a real-time, interactive language learning experience. Users can practice and improve their language skills through AI-driven conversations that are both engaging and instructive.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Before you begin, ensure you have the following installed:
+
+- Node.js (v14 or later)
+- npm (v6 or later)
+
+
+### Installation
+
+1. Clone the repository:
 ```
+git clone https://github.com/linguasyncinc/Linguasync_prototype.git
+cd Linguasync
+```
+2. Install dependencies:
+```
+npm install
+```
+3. Set up environment variables:
+   - Copy the .env.example file to a new file named .env.
+   - Fill in the necessary API keys and database credentials.
+4. Start the development server:
+```
+Copy code
+npm start
+```
+## Usage
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+After installation, you can start using LinguaLink by navigating to `localhost:3000` on your web browser. Here you can test out language learning sessions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Real-Time Conversation Practice**: Engage with an AI-driven partner that responds intelligently in your target language.
+- **Speech Recognition**: Convert spoken language to text to practice pronunciation and fluency.
+- **Translation and Transcription**: Get real-time feedback with translations to ensure understanding.
 
-## Learn More
+## Technology Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Nextjs, Redux
+- **Backend**: Nextjs serverless function
+- **AI**: [Google's Vertex AI](https://cloud.google.com/vertex-ai/docs), [Google Cloud Speech-to-Text API](https://cloud.google.com/speech-to-text/docs), [Google Cloud Text-to-Speech API](https://cloud.google.com/text-to-speech/docs), [Google Cloud Translation API](https://cloud.google.com/translate/docs/reference/api-overview)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contact
 
-## Deploy on Vercel
+For any queries, please reach out to us at linguasyncinc@gmail.com.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
