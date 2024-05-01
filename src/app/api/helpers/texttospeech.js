@@ -2,12 +2,11 @@ import textToSpeech from "@google-cloud/text-to-speech";
 import path from "path";
 import { PassThrough } from "stream";
 
-const pathToCredentials = path.resolve("linguasync", "../credential.json");
+const pathToCredentials = JSON.parse(process.env.credentials);
 
-console.log("Path to credentials:", pathToCredentials);
 
 const client = new textToSpeech.TextToSpeechClient({
-  keyFilename: pathToCredentials,
+  credentials: pathToCredentials,
 });
 
 const textToSpeechHelper = async (text, res) => {

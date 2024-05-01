@@ -4,13 +4,12 @@ import path from "path";
 
 
 const { Translate } = require("@google-cloud/translate").v2;
+const pathToCredentials = JSON.parse(process.env.credentials);
 
-const pathToCredentials = path.resolve("linguasync", "../credential.json");
 
-console.log("Path to credentials:", pathToCredentials);
 
 const translate = new Translate({
-  keyFilename: pathToCredentials,
+  credentials: pathToCredentials,
 });
 
 export async function POST(req, res) {

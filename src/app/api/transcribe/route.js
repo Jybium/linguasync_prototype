@@ -4,12 +4,10 @@ import path from "path";
 import wav from "node-wav";
 
 
-const pathToCredentials = path.resolve("linguasync", '../credential.json');
-
-console.log('Path to credentials:', pathToCredentials);
+const pathToCredentials = JSON.parse(process.env.credentials)
 
 const speechClient = new SpeechClient({
-  keyFilename: pathToCredentials,
+  credentials: pathToCredentials,
 });
 
 // function getSampleRateHertz(audioBuffer) {
