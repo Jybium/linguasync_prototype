@@ -47,7 +47,7 @@ export async function POST(req, res) {
     };
 
     const config = {
-      encoding: "LINEAR16",
+      // encoding: "LINEAR16",
       enable_automatic_punctuation: true,
       model: "default",
       enable_word_time_offsets: true,

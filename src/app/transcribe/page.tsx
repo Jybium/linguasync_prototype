@@ -19,9 +19,12 @@ export default function Home() {
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
         null
     );
+    const [loading, setLoading] = useState(false)
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    const [preferred, setPreferredLanguage] = useState<string>("en-US")
+    const [translatedText, setTranslatedText] = useState<string>("")
     const [data, setData] = useState<[] | undefined>([])
     const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
-    const [blobs, setBlob] = useState<Blob[] | []>([]);
     const [recording, setRecording] = useState(false);
     const [recordingTime, setRecordingTime] = useState(0);
     const [playbackTime, setPlaybackTime] = useState(0);
@@ -73,24 +76,34 @@ export default function Home() {
         } catch (error) {
             console.error('Error parsing data from store:', error);
         }
-    }, [audioChunks]);
+    }, [audioChunks, data]);
 
-    function addRequestResponsePair(request: any, response: any) {
-        const key = "data";
+    function addRequestResponsePair(request: string, response: string) {
+        const key = 'data';
+        const counterKey = 'idCounter';
+
         const existingData = sessionStorage.getItem(key);
-
         let data = existingData ? JSON.parse(existingData) : [];
 
+        let idCounter = sessionStorage.getItem(counterKey);
+        let currentCounter = idCounter ? parseInt(idCounter, 10) : 0;
+
+        currentCounter += 1;
+
         const newObject = {
+            id: currentCounter,
             request: request,
-            response: response
+            response: response,
         };
 
         data.push(newObject);
 
         const jsonData = JSON.stringify(data);
         sessionStorage.setItem(key, jsonData);
+
+        sessionStorage.setItem(counterKey, currentCounter.toString());
     }
+
 
 
     const startRecording = async () => {
@@ -99,13 +112,10 @@ export default function Home() {
             const recorder = new MediaRecorder(stream);
             setMediaRecorder(recorder);
             setRecordingTime(0);
-            // setAudioChunks([]);
+
 
             recorder.ondataavailable = (event) => {
-                // console.log('New data chunk:', event.data);
                 setAudioChunks((prevChunks) => [...prevChunks, event.data]);
-                // setBlob((prevChunks) => [...prevChunks, event.data])
-                // console.log('Current audio chunks:', audioChunks);
             };
 
             recorder.start();
@@ -121,8 +131,7 @@ export default function Home() {
             setRecording(false);
         }
 
-        // const completeBlob = new Blob(audioChunks, { type: "audio/wav" });
-        // console.log("Complete audio blob:", blobs);
+
     };
 
     const sendAudio = async () => {
@@ -133,6 +142,7 @@ export default function Home() {
         formData.append("audio", blob, "recording.wav");
 
         try {
+            setLoading(true)
             const response = await fetch("/api/transcribe", {
                 method: "POST",
                 body: formData,
@@ -149,11 +159,16 @@ export default function Home() {
             console.log("Audio file uploaded successfully:", data);
             addRequestResponsePair(audioUrl, data.transcript || "Couldn't get transcript. Use clear audio")
             setAudioChunks([]);
+            setLoading(false)
         } catch (error) {
             toast.error("An error has occured!")
 
             console.error("Error uploading audio file:", error);
             setAudioChunks([]);
+            setLoading(false)
+
+        } finally{
+            setLoading(false)
         }
 
     };
@@ -181,11 +196,55 @@ export default function Home() {
         }
     };
 
+
+    const getTranslation = async (text: string, id: string) => {
+
+        setSelectedItemId(id);
+
+        const formData = {
+            text: text,
+            targetLang: preferred
+        }
+
+        try {
+            setLoading(true)
+
+            const response = await fetch("/api/translate", {
+                method: "POST",
+                body: JSON.stringify(formData),
+
+            });
+
+            if (!response.ok) {
+                toast.error("Failed to upload audio file")
+                throw new Error("Failed to upload audio file");
+            }
+
+            const data = await response.json();
+            toast.success("Success")
+            console.log("Audio file uploaded successfully:", data);
+            setTranslatedText(data.translatedText);
+            setLoading(false)
+
+        } catch (error) {
+            toast.error("An error has occured!")
+
+            console.error("Error uploading audio file:", error);
+            setAudioChunks([]);
+            setLoading(false)
+
+        }finally{
+            setLoading(false)
+
+        }
+    }
+
+
     return (
         <main className="containe">
             <Header />
             <HeroSection />
-            <MainBody>
+            <MainBody preferred={preferred} setPreferredLanguage={setPreferredLanguage}>
                 <div className="flex flex-col justify-between mt-10 h-[50vh] overflow-y-auto">
 
 
@@ -193,8 +252,8 @@ export default function Home() {
 
                     <div className="flex flex-col gap-2 flex-1 overflow-y-auto">
                         {
-                            data?.map((item: { request: string; response: string }) => (
-                                <div key={item.request || item.response}>
+                            data?.map((item: { request: string; response: string, id: string }) => (
+                                <div key={item.id}>
                                     {item?.request && (
                                         <audio
                                             src={item.request}
@@ -203,7 +262,19 @@ export default function Home() {
                                             onTimeUpdate={() => setPlaybackTime(audioRef.current?.currentTime || 0)}
                                         />
                                     )}
-                                    {item?.response && <p className="mt-2 flex justify-end">{item.response}</p>}
+
+                                    {item?.response && <p className="mt-2 flex justify-end" onClick={(e) => {
+
+                                        const text = (e.target as HTMLElement)?.textContent ?? '';
+                                        getTranslation(text, item.id);
+                                    }}>
+                                        {item.response}
+                                    </p>
+                                    }
+                                    {/* Display translated text if the item ID matches the selected ID */}
+                                    {selectedItemId === item.id && (
+                                        <p className="mt-2 flex justify-end">{translatedText}</p>
+                                    )}
                                 </div>
                             ))
                         }
@@ -215,27 +286,13 @@ export default function Home() {
                         </button>
 
 
-                        {/* <button onClick={stopRecording} disabled={!recording}>
-                            Stop
-                        </button>
-                        <button onClick={sendAudio} disabled={audioChunks.length === 0} className="h-10 w-10 bg-green rounded-full flex items-center justify-center text-center">
-                            <IoIosSend size={30} color="white" />
-                        </button>
-                        <button onClick={handleAudioPlayback} disabled={recording}>
-                            Playback
-                        </button>
-                        <audio
-                            ref={audioRef}
-                            controls
-                            onEnded={() => setIsPlaying(false)}
-                            onTimeUpdate={() => setPlaybackTime(audioRef.current?.currentTime || 0)}
-                        /> */}
                         <div className="flex gap-3 items-end ">
                             <div>
                                 {recording && <p>Recording Time: {recordingTime} seconds</p>}
                                 {isPlaying && <p>Playback Time: {Math.floor(playbackTime)} seconds</p>}
                             </div>
-                            {!recording && <p>0 words</p>}
+                            {!recording && !loading && <p>0 words</p>}
+                            {!recording && loading && <p>Processing ...</p>}
                             {!recording && audioChunks.length !== 0 &&
                                 <button onClick={sendAudio} disabled={audioChunks.length === 0} className="h-10 w-10 bg-green rounded-full flex items-center justify-center text-center">
                                     <IoIosSend size={30} color="white" />
