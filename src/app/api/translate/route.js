@@ -34,6 +34,8 @@ export async function POST(req, res) {
 
   const { text, targetLang } = await req.json();
 
+  console.log(text, targetLang)
+
   if (!text || !targetLang) {
     return NextResponse.json({ error: "Text and target language are required." }, {status: 400});
   }
