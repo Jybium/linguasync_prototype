@@ -12,7 +12,6 @@ const MainBody = ({ children , preferred, setPreferredLanguage}: { children: Rea
     };
 
     const handleLanguageChange = (event: any) => {
-    
         setPreferredLanguage(event.target.value);
     };
 
@@ -46,7 +45,7 @@ const MainBody = ({ children , preferred, setPreferredLanguage}: { children: Rea
                     <p className='mt-3'>1. Click on any of the responses to get the translation in your preferred language.</p>
                     <p className='mt-3'>2. Translations are in english unless changed in the select menu above.</p>
                     </div>
-                    <button className='bg-green flex justify-end items-center text-white h-8 w-fit py-1 px-3 rounded-md' onClick={()=> sessionStorage.clear()}>Clear History</button>
+                    <a href='' className='bg-green flex justify-end items-center text-white h-8 w-fit py-1 px-3 rounded-md' onClick={()=> sessionStorage.clear()}>Clear History</a>
                 </div>
             </div>
         </div>

@@ -76,7 +76,7 @@ export default function Home() {
         } catch (error) {
             console.error('Error parsing data from store:', error);
         }
-    }, [audioChunks, data]);
+    }, [audioChunks]);
 
     function addRequestResponsePair(request: string, response: string) {
         const key = 'data';
@@ -135,6 +135,7 @@ export default function Home() {
     };
 
     const sendAudio = async () => {
+        console.log(audioChunks)
         const blob = new Blob(audioChunks, { type: "audio/wav" });
         console.log(blob)
         const audioUrl = URL.createObjectURL(blob);
@@ -273,7 +274,7 @@ export default function Home() {
                                     }
                                     {/* Display translated text if the item ID matches the selected ID */}
                                     {selectedItemId === item.id && (
-                                        <p className="mt-2 flex justify-end">{translatedText}</p>
+                                        <p className="mt-2 flex justify-end cursor-pointer">{translatedText}</p>
                                     )}
                                 </div>
                             ))
