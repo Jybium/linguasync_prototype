@@ -51,9 +51,10 @@ or you might want to run a build using `npm run build` then start the developmen
 ## Usage
 
 After installation, you can start using LinguaSync by navigating to `localhost:3000` on your web browser. Here you can test out language learning sessions.
+
 `localhost:3000/transcribe` takes to the page where you record your speech and generate the text format provided you are in a quiet environement and you have given the necessary microphone access permissions.
 
-`localhost:3000/translate` navigates you to the page where you type in texts and generate the translate in your chosen language from our drop down select menu. And also, you can convert the translation to an audio format which can help shape your pronounciation.
+`localhost:3000/translate` navigates you to the page where you type in texts and generate the translation in the language of your choice from our drop down select menu. And also, you can convert the translation to an audio format which can help shape your pronounciation.
 
 ## Features
 
