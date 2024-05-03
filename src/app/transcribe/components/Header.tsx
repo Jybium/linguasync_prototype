@@ -21,7 +21,7 @@ const Header = () => {
                         <Link href="/">Donate</Link>
                     </li>
                     <li>
-                        <Link href="/">Transcribe</Link>
+                        <Link href="/translate">Translate</Link>
                     </li>
                     <li>
                         <Link href="/transcribe">Speech-to-text</Link>
