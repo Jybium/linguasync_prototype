@@ -23,8 +23,8 @@ LinguaLink leverages [Google's Vertex AI](https://cloud.google.com/vertex-ai/doc
 
 Before you begin, ensure you have the following installed:
 
-- Node.js (v14 or later)
-- npm (v6 or later)
+- Node.js (v18 or later)
+- npm (v9 or later)
 
 
 ### Installation
@@ -39,16 +39,21 @@ cd Linguasync
 npm install
 ```
 3. Set up environment variables:
-   - Copy the .env.example file to a new file named .env.
-   - Fill in the necessary API keys and database credentials.
+   - Copy the .env file to a new file named .env.
+   - Fill in the necessary API keys and authentication credentials.
 4. Start the development server:
 ```
 Copy code
-npm start
+npm run dev
 ```
+or you might want to run a build using `npm run build` then start the development server using `npm run start`
+
 ## Usage
 
-After installation, you can start using LinguaLink by navigating to `localhost:3000` on your web browser. Here you can test out language learning sessions.
+After installation, you can start using LinguaSync by navigating to `localhost:3000` on your web browser. Here you can test out language learning sessions.
+`localhost:3000/transcribe` takes to the page where you record your speech and generate the text format provided you are in a quiet environement and you have given the necessary microphone access permissions.
+
+`localhost:3000/translate` navigates you to the page where you type in texts and generate the translate in your chosen language from our drop down select menu. And also, you can convert the translation to an audio format which can help shape your pronounciation.
 
 ## Features
 
@@ -58,7 +63,7 @@ After installation, you can start using LinguaLink by navigating to `localhost:3
 
 ## Technology Stack
 
-- **Frontend**: Nextjs, Redux
+- **Frontend**: Nextjs
 - **Backend**: Nextjs serverless function
 - **AI**: [Google's Vertex AI](https://cloud.google.com/vertex-ai/docs), [Google Cloud Speech-to-Text API](https://cloud.google.com/speech-to-text/docs), [Google Cloud Text-to-Speech API](https://cloud.google.com/text-to-speech/docs), [Google Cloud Translation API](https://cloud.google.com/translate/docs/reference/api-overview)
 
@@ -67,3 +72,8 @@ After installation, you can start using LinguaLink by navigating to `localhost:3
 
 For any queries, please reach out to us at linguasyncinc@gmail.com.
 
+## Deployment
+The app was deployed on vercel @ `https://linguasync-prototype.vercel.app`
+
+
+## ENJOY!!! and don't forget to star the project
